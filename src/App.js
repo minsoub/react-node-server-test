@@ -8,7 +8,15 @@ class App extends React.Component {
     this.state = {
       username: null
     };
+    this.groupCall = this.groupCall.bind(this);
   }
+  groupCall(e)
+  {
+    fetch('api/group')
+    .then(res=>res.json())
+    .then(data=>this.setState({username:data.username}));
+  }
+
   render() {
     const {username} = this.state;
     return (
@@ -16,12 +24,15 @@ class App extends React.Component {
         <header className="App-header">
           {username ? `Hello ${username}` : 'Hello Wordl'}
         </header>
-      </div>
+        <div>
+          <button type="button" onClick={this.groupCall}>Group Call</button>
+        </div>
+      </div>    
     );
   }
 
   componentDidMount() {
-    fetch('http://localhost:3001/api')
+    fetch('api')
       .then(res=>res.json())
       .then(data=>this.setState({username:data.username}));
   }
